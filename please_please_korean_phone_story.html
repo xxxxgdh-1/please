@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#151515">
+<title>PLEASE, PLEASE. — 분실된 휴대폰</title>
+<style>
+:root{--bg:#171717;--muted:#a6a6a6;--line:#393939;--yellow:#fee500}
+*{box-sizing:border-box}body{margin:0;background:#101010;color:#f8f8f8;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:16px}
+.phone{width:min(100%,410px);height:min(860px,calc(100dvh - 32px));min-height:600px;border:7px solid #383838;border-radius:42px;overflow:hidden;position:relative;background:#f4f1ea;color:#181818;box-shadow:0 25px 80px #0009}
+.status{height:32px;padding:9px 24px 0;display:flex;justify-content:space-between;font-size:12px;font-weight:700;position:absolute;z-index:5;top:0;width:100%;color:inherit;pointer-events:none}
+.screen{height:100%;display:none;overflow:auto;padding-bottom:30px}.screen.active{display:block}
+.lock{height:100%;color:white;background:linear-gradient(155deg,#36383a,#17191c 62%,#3b3936);padding:85px 24px 28px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.lock .date{font-size:15px;color:#ddd;margin-top:30px}.clock{font-size:76px;font-weight:250;letter-spacing:-4px;margin:2px 0 24px}.locknote{width:100%;text-align:left;background:#ffffff1c;backdrop-filter:blur(16px);padding:13px 15px;border-radius:17px;margin-top:10px;font-size:13px;line-height:1.45;border:1px solid #ffffff12}.locknote b{display:block;font-size:12px;margin-bottom:4px}.push{margin-top:auto;border:1px solid #ffffff7a;border-radius:28px;padding:12px 24px;background:#ffffff12;color:white;font-size:14px}
+.home{height:100%;padding:62px 19px 30px;background:linear-gradient(145deg,#d8d1c7,#eee9e0 45%,#b8b3ad);color:#222}
+.homehead{display:flex;justify-content:space-between;align-items:end;margin:0 3px 24px}.small{font-size:10px;color:#6c6863;letter-spacing:1.5px}.homehead h1{font-size:23px;margin:5px 0 0;font-weight:650;letter-spacing:-.7px}.battery{font-size:12px;background:#ffffff91;padding:6px 9px;border-radius:12px}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 10px}.app{border:0;background:none;color:#252525;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:11px;min-width:0}.ico{height:54px;width:54px;border-radius:15px;display:grid;place-items:center;font-size:26px;box-shadow:0 3px 8px #0002;position:relative}.ico.kakao{background:#fee500}.ico.ig{background:linear-gradient(135deg,#6d4de6,#d94489,#f5a348);color:white}.ico.photos{background:#fff}.ico.notes{background:#fff}.ico.call{background:#45bd73;color:white}.ico.settings{background:#c6c9cc}.ico.mail{background:#4d9cf4;color:white}.ico.files{background:#fff;color:#559be9}.dot{position:absolute;right:-3px;top:-3px;background:#e64b46;color:white;border-radius:10px;font-size:9px;min-width:17px;padding:2px}
+.widget{margin-top:29px;background:#ffffff9c;border:1px solid #ffffffa8;border-radius:21px;padding:15px 16px}.widget .label{font-size:10px;letter-spacing:1.5px;color:#79746f}.widget h2{font-size:18px;margin:8px 0 5px}.widget p{font-size:12px;line-height:1.5;color:#67625d;margin:0}.dock{position:absolute;bottom:15px;left:18px;right:18px;border-radius:23px;background:#ffffff8c;backdrop-filter:blur(15px);padding:11px;display:flex;justify-content:space-around}
+.appscreen{background:#f6f5f2;color:#171717;min-height:100%;padding-top:44px}.appbar{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:12px;padding:13px 17px;background:#f6f5f2ed;border-bottom:1px solid #e8e6e1}.back{border:0;background:transparent;font-size:24px;padding:0 4px;color:#222}.appbar h2{font-size:17px;margin:0;flex:1}.appbar small{font-size:10px;color:#8a8883}.content{padding:17px}.sectiontitle{font-size:11px;color:#85817b;letter-spacing:1.3px;margin:7px 0 12px}
+.chatrow{display:flex;align-items:center;gap:12px;padding:13px 2px;border-bottom:1px solid #e7e5df;width:100%;text-align:left;background:transparent;border-top:0;border-left:0;border-right:0;color:#191919}
+.avatar{width:45px;height:45px;border-radius:16px;background:#d8d2c9;display:grid;place-items:center;font-size:20px;flex-shrink:0}.avatar.yellow{background:#fee500}.avatar.blue{background:#d6e4ee}.avatar.pink{background:#ead6df}
+.chatmeta{flex:1;min-width:0}.chatmeta b{font-size:14px;display:block}.chatmeta p{margin:5px 0 0;color:#85817b;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:10px;color:#999;align-self:flex-start}
+.chathead{text-align:center;padding:10px 0 18px;font-size:12px;color:#8c8983}.bubbles{display:flex;flex-direction:column;gap:10px}.bubble{max-width:82%;padding:10px 12px;border-radius:15px;font-size:14px;line-height:1.55;white-space:pre-wrap}.bubble.left{align-self:flex-start;background:#fff;border:1px solid #ebe9e3;border-top-left-radius:4px}.bubble.right{align-self:flex-end;background:#fee500;border-top-right-radius:4px}.stamp{text-align:center;color:#999;font-size:10px;margin:14px 0}
+.storycard{background:#fff;border:1px solid #e9e6df;border-radius:17px;padding:15px;margin:10px 0}.storycard h3{font-size:14px;margin:0 0 7px}.storycard p{font-size:12px;line-height:1.6;color:#666;margin:0}.storycard button,.pill{border:0;border-radius:20px;background:#252525;color:white;padding:9px 13px;font-size:12px;margin-top:12px}
+.photo{height:170px;border-radius:15px;background:linear-gradient(140deg,#b7b0a6,#ddd6cc 48%,#777b7b);display:flex;align-items:end;padding:13px;color:white;font-size:12px;text-shadow:0 1px 4px #0008;margin-bottom:9px}.photo.two{background:linear-gradient(135deg,#aab7bb,#e2d7ce 50%,#716f74)}.note{background:#fff6c8;border-radius:8px;padding:17px;font-size:13px;line-height:1.7;white-space:pre-wrap;box-shadow:0 2px 8px #0001}
+.homebtn{position:sticky;bottom:0;background:#f6f5f2eb;padding:10px;text-align:center}.homebtn button{border:0;background:#222;color:white;border-radius:18px;padding:10px 18px;font-size:12px}
+.disclaimer{font-size:10px;line-height:1.5;color:#999;text-align:center;margin:17px 6px 0}
+@media(max-height:680px){.phone{height:calc(100dvh - 16px);min-height:0}.lock{padding-top:55px}.clock{font-size:64px}.apps{gap:14px 8px}.ico{width:48px;height:48px}.widget{margin-top:18px}}
+</style>
+</head>
+<body>
+<div class="phone" role="application" aria-label="가상 휴대폰 픽션">
+  <div class="status"><span id="statusTime">9:41</span><span>●●● ▰</span></div>
+  <section id="lock" class="screen active lock">
+    <div class="date">10월 21일 수요일</div>
+    <div class="clock">09:41</div>
+    <div class="locknote"><b>카카오톡</b>리쿠: 집에 도착했어?<br><span style="opacity:.75">읽지 않은 메시지 2개</span></div>
+    <div class="locknote"><b>Instagram</b>리쿠님이 23분 전에 스토리를 올렸습니다.</div>
+    <button class="push" onclick="unlock()">위로 쓸어올려 잠금 해제　↑</button>
+    <div style="font-size:10px;opacity:.55;margin-top:18px">가상 팬픽 인터랙티브 스토리 · PLEASE, PLEASE.</div>
+  </section>
+  <section id="home" class="screen home">
+    <div class="homehead"><div><div class="small">WEDNESDAY · OCT 21</div><h1>어떤 밤, 어떤 마음.</h1></div><div class="battery">◉ 86%</div></div>
+    <div class="apps">
+      <button class="app" onclick="openApp('kakao')"><span class="ico kakao">💬<i class="dot">3</i></span>카카오톡</button>
+      <button class="app" onclick="openApp('instagram')"><span class="ico ig">◎</span>Instagram</button>
+      <button class="app" onclick="openApp('photos')"><span class="ico photos">🌈</span>사진</button>
+      <button class="app" onclick="openApp('notes')"><span class="ico notes">📝</span>메모</button>
+      <button class="app" onclick="openApp('calls')"><span class="ico call">☎</span>전화</button>
+      <button class="app" onclick="openApp('mail')"><span class="ico mail">✉</span>메일</button>
+      <button class="app" onclick="openApp('files')"><span class="ico files">📁</span>파일</button>
+      <button class="app" onclick="openApp('settings')"><span class="ico settings">⚙</span>설정</button>
+    </div>
+    <div class="widget"><div class="label">RECENTLY USED</div><h2>읽지 않은 메시지 3개</h2><p>어젯밤에 멈춰 버린 대화가 있어요.<br>어떤 앱부터 열어도 괜찮아요.</p></div>
+    <div class="dock"><span>☎</span><span>💬</span><span>◎</span><span>🎵</span></div>
+  </section>
+  <section id="kakao" class="screen appscreen">
+    <div class="appbar"><button class="back" onclick="goHome()">‹</button><h2>카카오톡</h2><small>채팅</small></div>
+    <div class="content"><div class="sectiontitle">채팅</div>
+      <button class="chatrow" onclick="openChat('riku')"><span class="avatar yellow">🐰</span><span class="chatmeta"><b>리쿠</b><p>집에 도착했어?</p></span><span class="time">23:41 <i class="dot">2</i></span></button>
+      <button class="chatrow" onclick="openChat('group')"><span class="avatar blue">✦</span><span class="chatmeta"><b>연습실 사람들</b><p>대영: 내일 가져갈게.</p></span><span class="time">어제</span></button>
+      <button class="chatrow" onclick="openChat('saved')"><span class="avatar pink">♡</span><span class="chatmeta"><b>나와의 채팅</b><p>초안: 아직 묻지 못한 말.</p></span><span class="time">월요일</span></button>
+      <div class="disclaimer">이 페이지는 가상의 팬픽이며 모든 대화는 창작입니다.</div>
+    </div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div>
+  </section>
+  <section id="chat-riku" class="screen appscreen">
+    <div class="appbar"><button class="back" onclick="openApp('kakao')">‹</button><h2>리쿠</h2><small>1:1 채팅</small></div>
+    <div class="content"><div class="chathead">리쿠와의 대화 · 10월 21일</div><div class="bubbles">
+      <div class="stamp">23:16</div>
+      <div class="bubble left">오늘 연습 끝나고 어디 갔어?</div>
+      <div class="bubble right">그냥 잠깐 바람 쐬러.</div>
+      <div class="bubble left">거짓말. 네 가방 아직 여기 있어.</div>
+      <div class="stamp">23:28</div>
+      <div class="bubble right">내일 가져갈게.</div>
+      <div class="bubble left">내일도 피할 거야?</div>
+      <div class="bubble right">……안 피해.</div>
+      <div class="stamp">23:41</div>
+      <div class="bubble left">그럼 왜 내 연락만 안 받아.</div>
+      <div class="bubble left">대영아, 나한테 할 말 없어?</div>
+    </div><div class="storycard"><h3>보내지 않은 메시지 · 임시 저장</h3><p>“그날이 우연이 아니었다고 말하면, 넌 어떻게 생각할까?”</p></div></div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div>
+  </section>
+  <section id="chat-group" class="screen appscreen">
+    <div class="appbar"><button class="back" onclick="openApp('kakao')">‹</button><h2>연습실 사람들</h2></div><div class="content"><div class="chathead">단체 채팅 · 10월 20일</div><div class="bubbles">
+      <div class="bubble left">내일 연습실 정리하는 거 잊지 마!</div>
+      <div class="bubble right">대영: 내 검은 가방 거기 두고 왔어.</div>
+      <div class="bubble left">리쿠: 알아. 내가 챙겨둘게.</div>
+      <div class="bubble left">리쿠: 그리고 어제 얘기는 둘이서 해.</div>
+    </div><div class="storycard"><h3>단서 01</h3><p>리쿠는 왜 대영의 가방이 어디 있는지 알고 있을까? 다른 사람들도 ‘어제 일’을 알고 있는 것 같다.</p></div></div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div>
+  </section>
+  <section id="chat-saved" class="screen appscreen">
+    <div class="appbar"><button class="back" onclick="openApp('kakao')">‹</button><h2>나와의 채팅</h2></div><div class="content"><div class="sectiontitle">임시 메모 · 10월 19일 01:12</div><div class="note">아직 묻지 못한 말.
+
+네가 “아무거나”라고 했을 때, 난 정말 네가 상관없는 줄 알았어.
+
+나중에서야 알았어. 넌 괜찮다고 말할 때마다 나를 보지 않았다는 걸.
+
+— 대영</div><div class="storycard"><h3>단서 02</h3><p>누구에게도 보내지 않은 글이다. 사진과 통화 기록도 확인해 보자.</p></div></div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div>
+  </section>
+  <section id="instagram" class="screen appscreen">
+    <div class="appbar"><button class="back" onclick="goHome()">‹</button><h2>Instagram</h2><small>피드</small></div><div class="content">
+      <div class="storycard"><div style="display:flex;gap:10px;align-items:center;margin-bottom:12px"><span class="avatar pink">🐰</span><div><b style="font-size:13px">riku.zip</b><div style="font-size:10px;color:#999;margin-top:3px">스토리 · 23분 전</div></div></div><div class="photo">창가에 남겨진 아이스 아메리카노 두 잔</div><p>오늘은 조금 늦게 집에 가고 싶다.</p><button onclick="showClue('story')">스토리 답장 보기</button></div>
+      <div class="storycard"><h3>DM · 대영</h3><p>대영: 그 사진 지워.<br>리쿠: 왜?<br>대영: 오해받을 수도 있잖아.<br>리쿠: 다른 사람이 오해하는 게 신경 쓰여, 아니면 내가?</p><button onclick="openChat('riku')">카카오톡 대화 보기</button></div>
+    </div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div>
+  </section>
+  <section id="photos" class="screen appscreen">
+    <div class="appbar"><button class="back" onclick="goHome()">‹</button><h2>사진</h2><small>최근 항목</small></div><div class="content"><div class="sectiontitle">최근 항목 · 10월 19일</div><div class="photo">연습실 거울 · 21:08</div><div class="photo two">사진 구석에 찍힌 익숙한 검은 가방 · 21:11</div><div class="storycard"><h3>사진 정보</h3><p>두 사진의 촬영 시간은 3분 차이다. 두 번째 사진은 SNS에 올리지 않았다.</p><button onclick="showClue('photo')">숨겨진 메모 보기</button></div></div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div>
+  </section>
+  <section id="notes" class="screen appscreen">
+    <div class="appbar"><button class="back" onclick="goHome()">‹</button><h2>메모</h2><small>3개</small></div><div class="content"><div class="storycard"><h3>내일 꼭 기억하기</h3><p>□ 대영에게 검은 가방 돌려주기<br>□ 그날 왜 가 버렸는지 묻기<br>□ 아무렇지 않은 척하지 않기</p></div><div class="storycard"><h3>제목 없음 · 01:24</h3><p>화가 난 게 아니야.<br>내가 먼저 말하면 나만 신경 쓴 것처럼 보일까 봐 무서웠어.</p><button onclick="showClue('note')">전체 메모 보기</button></div></div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div>
+  </section>
+  <section id="calls" class="screen appscreen">
+    <div class="appbar"><button class="back" onclick="goHome()">‹</button><h2>최근 통화</h2></div><div class="content"><div class="chatrow"><span class="avatar yellow">🐰</span><span class="chatmeta"><b>리쿠</b><p>부재중 전화 · 휴대전화</p></span><span class="time">23:39</span></div><div class="chatrow"><span class="avatar blue">✦</span><span class="chatmeta"><b>리쿠</b><p>취소됨 · 음성 통화</p></span><span class="time">23:35</span></div><div class="chatrow"><span class="avatar yellow">🐰</span><span class="chatmeta"><b>리쿠</b><p>통화 시간 00:07</p></span><span class="time">어제</span></div><div class="storycard"><h3>단서 03</h3><p>마지막 메시지 전에 리쿠는 세 번 전화했다. 마지막 통화는 단 7초였다.</p><button onclick="showClue('call')">통화 메모 보기</button></div></div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div>
+  </section>
+  <section id="mail" class="screen appscreen"><div class="appbar"><button class="back" onclick="goHome()">‹</button><h2>메일</h2></div><div class="content"><div class="storycard"><h3>새 메일 없음</h3><p>받은 편지함은 조용하다. 아직 확인할 만한 것은 없다.</p></div><div class="storycard"><h3>임시 보관함 · 1</h3><p>받는 사람: 미입력<br>제목: 그날<br><br>“널 찾아가기 싫었던 게 아니야. 네가 더는 날 보고 싶어 하지 않을까 봐 무서웠어.”</p></div></div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div></section>
+  <section id="files" class="screen appscreen"><div class="appbar"><button class="back" onclick="goHome()">‹</button><h2>파일</h2></div><div class="content"><div class="chatrow"><span class="avatar blue">📄</span><span class="chatmeta"><b>practice_schedule.pdf</b><p>연습 일정 · 10월 19일</p></span></div><div class="chatrow"><span class="avatar">🎧</span><span class="chatmeta"><b>voice_memo_2316</b><p>음성 메모 · 00:07</p></span></div><div class="storycard"><h3>음성 메모 받아쓰기 (일부)</h3><p>“……가지 마. 그런 뜻으로 한 말이 아니야.”<br><span style="color:#999">녹음은 여기서 끊겼다.</span></p></div></div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div></section>
+  <section id="settings" class="screen appscreen"><div class="appbar"><button class="back" onclick="goHome()">‹</button><h2>설정</h2></div><div class="content"><div class="storycard"><h3>기기 정보</h3><p>기기 이름: 대영의 iPhone<br>마지막 백업: 어제 02:14<br>잠금 화면 알림: 켜짐</p></div><div class="storycard"><h3>이야기 정보</h3><p>이 작품은 가상의 CP 팬픽입니다. 채팅, 사진 설명, 사건은 모두 창작이며 실제 인물의 사적인 정보가 아닙니다.</p><button onclick="resetStory()">처음부터 다시 보기</button></div></div><div class="homebtn"><button onclick="goHome()">홈 화면으로</button></div></section>
+  <div id="modal" style="display:none;position:absolute;inset:0;background:#0008;z-index:10;align-items:center;justify-content:center;padding:24px"><div style="background:#f8f6f1;color:#222;border-radius:22px;padding:22px;width:100%;box-shadow:0 15px 50px #0005"><div id="modalTitle" style="font-weight:700;margin-bottom:10px"></div><div id="modalText" style="font-size:13px;line-height:1.7;white-space:pre-wrap"></div><button onclick="closeModal()" style="margin-top:18px;border:0;border-radius:18px;padding:10px 16px;background:#222;color:white">확인</button></div></div>
+</div>
+<script>
+const screens=[...document.querySelectorAll('.screen')];
+function show(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));document.querySelector('.status').style.color=id==='lock'?'white':'#222'}
+function unlock(){show('home')} function goHome(){show('home')} function openApp(id){show(id)} function openChat(id){show('chat-'+id)}
+function closeModal(){document.getElementById('modal').style.display='none'}
+function showClue(type){const data={
+story:['스토리 답장','대영: 아직 안 갔어?\n리쿠: 누군가 기다리는 중.\n대영: 기다리지 마.\n리쿠: 그럼 넌 왜 아직 안 갔어?'],
+photo:['사진 숨겨진 메모','“문 앞에 서 있는 널 봤을 때, 사실은 불러 세우고 싶었어. 결국 셔터만 눌렀지만.”\n\n메모 작성 시간: 10월 19일 21:13'],
+note:['메모 전체 보기','화가 난 게 아니야.\n내가 먼저 말하면 나만 신경 쓴 것처럼 보일까 봐 무서웠어.\n\n네가 정말 그날 일을 다시 얘기하고 싶지 않다면, 나도 아무 일 없었던 척할게.'],
+call:['통화 메모','23:39 · 부재중 전화\n23:40 · 음성 메시지 (7초)\n\n음성 인식: “대영아…… 됐어. 내일 보자.”']
+};document.getElementById('modalTitle').textContent=data[type][0];document.getElementById('modalText').textContent=data[type][1];document.getElementById('modal').style.display='flex'}
+function resetStory(){closeModal();show('lock')}
+</script>
+</body>
+</html>
